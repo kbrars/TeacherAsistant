@@ -1,8 +1,11 @@
-from flask import Flask, request, jsonify, session, redirect, url_for
+from flask import Flask, request, jsonify, session, redirect, url_for,send_file
 from flask_session import Session
 import psycopg2
 from flask_cors import CORS 
-
+import io
+import cv2
+import numpy as np
+import base64
 app = Flask(__name__)
 CORS(app) 
 
@@ -213,6 +216,68 @@ def change_password():
     except Exception as e:
         return jsonify({"status": False, "message": str(e)}), 500
 
+    finally:
+        if cur:
+            cur.close()
+        if conn:
+            conn.close()
+
+
+#resim donusturme
+def convert_frame_from_bytes(frame_bytes):
+    # Byte array to numpy array
+    frame_np = np.frombuffer(frame_bytes, dtype=np.uint8)
+    # Numpy array to image
+    frame = cv2.imdecode(frame_np, flags=cv2.IMREAD_COLOR)
+    _, buffer = cv2.imencode('.jpg', frame)
+    frame_base64 = base64.b64encode(buffer).decode('utf-8')
+    return frame_base64
+
+# Öğretmenin derslerini getirme
+@app.route("/api/getTeacherLessons", methods=["POST"])
+def get_teacher_lessons():
+    data = request.json
+    user_name = data.get('username')  # Öğretmenin kullanıcı adını al
+    
+    try:
+        # Veritabanına bağlan
+        conn = psycopg2.connect("postgresql://postgres:479528@localhost/BTKHackathon")
+        cur = conn.cursor()
+        
+        # Öğretmenin ID'sini al
+        sql_user_id = "SELECT id FROM users WHERE username = %s"
+        cur.execute(sql_user_id, (user_name,))
+        teacher = cur.fetchone()
+        
+        if teacher is None:
+            return jsonify({'error': 'Öğretmen bulunamadı.'}), 404
+        
+        teacher_id = teacher[0]
+
+        # Öğretmenin derslerini seç
+        sql_lessons = """
+        SELECT lessons.id, lessons.lesson_name,lessons.image_data,lessons.image_name
+        FROM lessons
+        JOIN teachers_lessons ON lessons.id = teachers_lessons.lesson_id
+        WHERE teachers_lessons.teacher_id = %s
+        """
+        cur.execute(sql_lessons, (teacher_id,))
+        lessons_data = cur.fetchall()
+
+        # Sonuçları JSON formatına çevir
+        lessons_list = []
+        for row in lessons_data:
+            lessons_list.append({
+                "id": row[0],
+                "lesson_name": row[1],
+                "image":convert_frame_from_bytes(row[2])
+
+
+            })
+
+        return jsonify(lessons_list), 200
+    except (psycopg2.Error, Exception) as error:
+        return jsonify({'error': str(error)}), 500
     finally:
         if cur:
             cur.close()

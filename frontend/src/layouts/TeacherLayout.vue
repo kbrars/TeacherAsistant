@@ -24,7 +24,7 @@
         <q-scroll-area class="fit" :horizontal-thumb-style="{ opacity: 0 }">
           <q-list padding>
             <!-- Profil -->
-            <q-item clickable v-ripple @click="selectPage('TeacherProfil')">
+            <q-item clickable v-ripple @click="selectPage('TeacherProfilPage')">
               <q-item-section avatar>
                 <q-icon name="account_box" />
               </q-item-section>
@@ -34,12 +34,15 @@
             </q-item>
 
             <!-- Sinav Olustur -->
-            <q-item clickable v-ripple @click="selectPage('SinavOlustur')">
+            <q-item clickable v-ripple @click="selectPage('SinavOlusturPage')">
               <q-item-section avatar>
-                <q-icon name="camera" />
+                <q-icon name="description" style="position: relative; font-size: 26px; color: black;">
+                <q-icon name="add" style="position: absolute; right: -9px; bottom: -6px; color: black; font-size: 16px;" />
+              </q-icon>
+
               </q-item-section>
               <q-item-section>
-                Sinav Oluştur
+                Sınav Oluştur
               </q-item-section>
             </q-item>
 
@@ -62,12 +65,12 @@
         <q-page padding>
           <!-- İçerikler -->
 
-          <div v-if="selectedPage === 'TeacherProfil'">
+          <div v-if="selectedPage === 'TeacherProfilPage'   ">
             <router-view></router-view>
             <!-- Profil içeriği -->
           </div>
 
-          <div v-else-if="selectedPage === 'SinavOlustur'">
+          <div v-else-if="selectedPage === 'SinavOlusturPage'">
           <!-- Sinav Olusturma -->
             <router-view></router-view>
           </div>
@@ -89,14 +92,14 @@ setup() {
   const drawer = ref(false);
   const miniState = ref(true);
   const router = useRouter();
-  const selectedPage = ref('TeacherProfil');
+  const selectedPage = ref('TeacherProfilPage');
 
   const selectPage = (page) => {
     selectedPage.value = page;
-    if (page === 'TeacherProfil') {
-      router.push({ name: 'TeacherProfil' });
-    } else if (page === 'SinavOlustur') {
-      router.push({ name: 'SinavOlustur' });
+    if (page === 'TeacherProfilPage') {
+      router.push({ name: 'TeacherProfilPage' });
+    } else if (page === 'SinavOlusturPage') {
+      router.push({ name: 'SinavOlusturPage' });
     }
   };
 

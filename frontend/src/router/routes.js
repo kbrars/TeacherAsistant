@@ -1,6 +1,7 @@
 import IndexPage from "pages/IndexPage.vue"
 import TeacherLayout from "layouts/TeacherLayout.vue"
 import TeacherProfilPage from "src/pages/TeacherPages/TeacherProfil.vue"
+import SinavOlusturPage from "src/pages/TeacherPages/SinavOlustur.vue"
 import StudentProfilPage from "src/pages/StudentPages/StudentProfil.vue"
 
 
@@ -15,7 +16,8 @@ const routes = [
     path: '/TeacherPage/:username',
     component: TeacherLayout,
     children: [
-      { path: '', component: TeacherProfilPage, name:"TeacherProfilPage"}
+      { path: '', component: TeacherProfilPage, name:"TeacherProfilPage"},
+      { path: 'SinavOlusturma', component: SinavOlusturPage, name:"SinavOlusturPage"}
     ]
   },
 
