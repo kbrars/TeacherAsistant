@@ -58,8 +58,163 @@ def login():
         if conn:
             conn.close()
 
-
+#Çıkış işlemi
 @app.route("/api/logout", methods=["POST"])
 def logout():
-    session.clear()
+  #  session.clear()
     return jsonify({"logout": True,})
+
+#Öğretmen bilgilerini getirme
+@app.route("/api/getTeacherData", methods=["POST"])
+def get_superOperatorData():
+    data = request.json
+    username = data.get('username')
+    try:
+        conn = psycopg2.connect("postgresql://postgres:479528@localhost/BTKHackathon")
+        cur = conn.cursor()
+        sql = "SELECT * FROM users WHERE username = %s"
+        cur.execute(sql, (username,))
+        operators = cur.fetchall()
+        conn.commit()
+        return jsonify(operators)
+    except (psycopg2.Error, Exception) as error:
+        # Hata oluştuğunda uygun bir yanıt döndürün
+        return jsonify({'error': str(error)})
+    finally:
+        # Bağlantıyı ve imleci kapat
+        if cur:
+            cur.close()
+        if conn:
+            conn.close()
+
+#Öğretmen bilgilerini güncelleme
+@app.route("/api/updateTeacherData", methods=["POST"])
+def superOperator_update_profile():
+    data = request.json
+    firstName = data.get("firstName")
+    lastName = data.get("lastName")
+    username = data.get('username')
+    real_username = data.get("real_username")
+    email = data.get('email')
+    address = data.get("address")
+    phone=data.get("phone")
+
+    if not all([firstName, lastName, username, real_username, email, address]):
+        return jsonify({"status": False, "message": "All fields are required"}), 400
+
+    try:
+        conn = psycopg2.connect("postgresql://postgres:479528@localhost/BTKHackathon")
+        cur = conn.cursor()
+
+        # Mevcut kullanıcı adını ve e-postayı kontrol et
+        sql = "SELECT username, email FROM users WHERE username = %s"
+        cur.execute(sql, (real_username,))
+        existing_user = cur.fetchone()
+
+        if not existing_user:
+            return jsonify({"status": False, "message": "No user found with the given username"}), 404
+
+        existing_username, existing_email = existing_user
+
+        # Yeni kullanıcı adı veya e-posta mevcut mu kontrol et
+        if username != existing_username:
+            sql = "SELECT 1 FROM users WHERE username = %s"
+            cur.execute(sql, (username,))
+            if cur.fetchone():
+                return jsonify({"status": False, "message": "Username already exists"}), 409
+
+        if email != existing_email:
+            sql = "SELECT 1 FROM users WHERE email = %s"
+            cur.execute(sql, (email,))
+            if cur.fetchone():
+                return jsonify({"status": False, "message": "Email already exists"}), 409
+
+        # Kullanıcı bilgilerini güncelle
+        sql = """
+        UPDATE users SET firstname = %s, lastname = %s, username = %s, email = %s, address = %s, phone=%s
+        WHERE username = %s
+        """
+        cur.execute(sql, (firstName, lastName, username, email, address,phone, real_username))
+        conn.commit()
+
+        response = {"status": True, "message": "User data updated successfully", "logout":False}
+
+        # Kullanıcı adı veya e-posta değişmişse oturumu sonlandır ve özel bir durum döndür
+        if username != existing_username or email != existing_email:
+            session.clear()
+            return jsonify({"logout":True})  
+
+        return jsonify(response), 200
+
+    except Exception as e:
+        return jsonify({"status": False, "message": str(e)}), 500
+
+    finally:
+        if cur:
+            cur.close()
+        if conn:
+            conn.close()
+
+#Şifre doğrulama
+@app.route("/api/verifyPassword", methods=["POST"])
+def verify_password():
+    data = request.json
+    username = data.get('username')
+    password = data.get('password')
+
+    if not username or not password:
+        return jsonify({"status": False, "message": "Username and password are required"}), 400
+
+    try:
+        conn = psycopg2.connect("postgresql://postgres:479528@localhost/BTKHackathon")
+        cur = conn.cursor()
+
+        sql = "SELECT * FROM users WHERE username = %s AND password = %s"
+        cur.execute(sql, (username, password))
+        user = cur.fetchone()
+
+        if user:
+            return jsonify({"status": True, "message": "Password verified"}), 200
+        else:
+            return jsonify({"status": False, "message": "Invalid password"}), 401
+
+    except Exception as e:
+        return jsonify({"status": False, "message": str(e)}), 500
+
+    finally:
+        if cur:
+            cur.close()
+        if conn:
+            conn.close()
+
+#Şifre güncelleme
+@app.route("/api/changePassword", methods=["POST"])
+def change_password():
+    data = request.json
+    username = data.get('username')
+    new_password = data.get('new_password')
+
+    if not username or not new_password:
+        return jsonify({"status": False, "message": "Username and new password are required"}), 400
+
+    try:
+        conn = psycopg2.connect("postgresql://postgres:479528@localhost/BTKHackathon")
+        cur = conn.cursor()
+
+        sql = "UPDATE users SET password = %s WHERE username = %s"
+        cur.execute(sql, (new_password, username))
+        conn.commit()
+
+        if cur.rowcount == 0:
+            return jsonify({"status": False, "message": "User not found"}), 404
+
+        return jsonify({"status": True, "message": "Password updated successfully"}), 200
+
+    except Exception as e:
+        return jsonify({"status": False, "message": str(e)}), 500
+
+    finally:
+        if cur:
+            cur.close()
+        if conn:
+            conn.close()
