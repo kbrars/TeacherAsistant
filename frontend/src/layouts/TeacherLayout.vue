@@ -5,7 +5,7 @@
       <q-header elevated :class="$q.dark.isActive ? 'bg-secondary' : 'bg-black'">
         <q-toolbar>
           <q-btn flat @click="toggleDrawer" round dense icon="menu" />
-          <q-toolbar-title>Teacher Portal</q-toolbar-title>
+          <q-toolbar-title>Eğitmen Portal</q-toolbar-title>
         </q-toolbar>
       </q-header>
 

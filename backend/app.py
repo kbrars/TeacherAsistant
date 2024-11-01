@@ -6,6 +6,7 @@ import io
 import cv2
 import numpy as np
 import base64
+from geminiApi import geminiApiResult
 app = Flask(__name__)
 CORS(app) 
 
@@ -309,4 +310,14 @@ def get_superOperatorData():
             cur.close()
         if conn:
             conn.close()
+
+#Ders konuarını getirme (Modala)
+@app.route("/api/createQuestions", methods=["POST"])
+def createQuestions():
+    data = request.json
+    selected_subjects = ', '.join(data.get("selected_subjects"))
+    total_Question = data.get("total_questions")
+    promt = f"{selected_subjects} konularından toplamda {total_Question} soru oluştur.Soru seviyesi orta olsun. Sadece sorular ve cevapları olsun . Ek bilgi olmasın. Konu başlıkları olmasın. Not yazma."
+    result= geminiApiResult(promt)
+    return jsonify({"questions": result})
 
