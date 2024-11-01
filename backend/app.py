@@ -69,7 +69,7 @@ def logout():
 
 #Öğretmen bilgilerini getirme
 @app.route("/api/getTeacherData", methods=["POST"])
-def get_superOperatorData():
+def getTeacherData():
     data = request.json
     username = data.get('username')
     try:
@@ -92,7 +92,7 @@ def get_superOperatorData():
 
 #Öğretmen bilgilerini güncelleme
 @app.route("/api/updateTeacherData", methods=["POST"])
-def superOperator_update_profile():
+def updateTeacherData():
     data = request.json
     firstName = data.get("firstName")
     lastName = data.get("lastName")
@@ -283,3 +283,30 @@ def get_teacher_lessons():
             cur.close()
         if conn:
             conn.close()
+
+
+
+#Ders konuarını getirme (Modala)
+@app.route("/api/getSubjects", methods=["POST"])
+def get_superOperatorData():
+    data = request.json
+    lesson_id = data.get('id')
+
+    try:
+        conn = psycopg2.connect("postgresql://postgres:479528@localhost/BTKHackathon")
+        cur = conn.cursor()
+        sql = "SELECT subject_name FROM subjects WHERE lesson_id = %s"
+        cur.execute(sql, (lesson_id,))
+        subjects = cur.fetchall()
+        conn.commit()
+        return jsonify(subjects)
+    except (psycopg2.Error, Exception) as error:
+        # Hata oluştuğunda uygun bir yanıt döndürün
+        return jsonify({'error': str(error)})
+    finally:
+        # Bağlantıyı ve imleci kapat
+        if cur:
+            cur.close()
+        if conn:
+            conn.close()
+
