@@ -1,8 +1,6 @@
 import pathlib
 import textwrap
-
 import google.generativeai as genai
-
 from IPython.display import display
 from IPython.display import Markdown
 
@@ -20,5 +18,5 @@ def geminiApiResult(promt):
     model = genai.GenerativeModel("gemini-1.5-flash")
     response = model.generate_content(promt)
     text = to_markdown(response.text)
-    text = response.text
+    text = response.text.replace("*","").replace("#","")
     return text

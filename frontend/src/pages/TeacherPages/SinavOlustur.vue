@@ -35,18 +35,14 @@
                                 </q-item>
                             </q-list>
                         </div>
-
                         <div class="q-pa-md">
                             <p>Soru Sayısı: </p>
                             <q-input v-model.number="total_questions" type="number" filled style="max-width: 100%" />
                         </div>
-                        <div class="q-px-sm q-mt-sm">
-                            Your selection is: <strong>{{ subjectt }}</strong>
-                        </div>
                     </div>
                 </q-card-section>
                 <q-card-actions>
-                    <q-btn label="Oluştur" :loading="loading" @click="sinav_olustur" color="secondary"
+                    <q-btn label="Sınav Oluştur" :loading="loading" @click="sinav_olustur" color="secondary"
                         class="full-width" style="height: 40px;" />
                 </q-card-actions>
             </q-card>
@@ -168,17 +164,12 @@
 <style>
     .my-card {
         width: 400px;
-        /* Kart genişliğini artırdık */
         max-width: 100%;
-        /* Ekrana göre esnek olmasını sağlıyoruz */
         height: 200px;
-        /* Kart yüksekliğini ayarlayın */
     }
 
     .custom-modal {
         width: 80%;
-        /* Modal genişliği */
         max-width: 600px;
-        /* Maksimum genişlik */
     }
 </style>
