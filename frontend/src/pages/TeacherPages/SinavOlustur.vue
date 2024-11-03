@@ -155,7 +155,6 @@
                     this.loading = false; // İşlem tamamlandığında yüklenme durumunu kapat
                 }
 
-
             }
         }
     }

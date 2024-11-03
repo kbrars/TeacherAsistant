@@ -106,3 +106,8 @@ def getTeacherLessons_Subjects():
         lessons_and_subjects.append({"id":lessons[k]["id"], "subjects":subjects,"image":lessons[k]["image"],"lesson_name":lessons[k]["lesson_name"]})    
     return jsonify({"s":lessons_and_subjects})
 
+#Materyal oluşturma
+@app.route("/api/createMeterial", methods=["POST"])
+def createMeterial():
+    data = request.json
+    return pfunc.createMeterial(data)

@@ -232,14 +232,18 @@ class ProjectFunction:
         result= geminiApiResult(promt)
         return jsonify({"questions": result})
     
-
-
-
     def getTeacherLessons_Subjects(self):
         data = {"username": "karslann"}
         user_name = data.get('username')
         lessons = self.get_teacher_lessons(data)
         return lessons
+    
+    def createMeterial(self,data):
+        subject = data.get("subject_name")
+        lesson_name = data.get("lesson_name")
+        promt = f"{lesson_name} dersinde konu olan {subject} konusundan ders materyali hazırlar mısın. Materyal dışında herhangi bir şey yazma."
+        result= geminiApiResult(promt)
+        return jsonify({"material": result})
             
         
 
