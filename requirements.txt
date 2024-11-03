@@ -1,0 +1,14 @@
+Flask
+flask-session
+psycopg2
+flask-cors
+opencv-python
+numpy
+base64
+io
+json
+random
+pathlib
+textwrap
+google-generativeai
+ipython
