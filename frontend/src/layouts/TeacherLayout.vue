@@ -18,7 +18,7 @@
                         <!-- Profil -->
                         <q-item clickable v-ripple @click="selectPage('TeacherProfilPage')">
                             <q-item-section avatar>
-                                <q-icon name="account_box" />
+                                <q-icon name="account_box"  size="md"/>
                             </q-item-section>
                             <q-item-section>
                                 Profil
@@ -29,7 +29,7 @@
                         <q-item clickable v-ripple @click="selectPage('SinavOlusturPage')">
                             <q-item-section avatar>
                                 <q-icon name="description" style="position: relative; font-size: 26px; color: black;">
-                                    <q-icon name="add"
+                                    <q-icon name="add" size="md"
                                         style="position: absolute; right: -9px; bottom: -6px; color: black; font-size: 16px;" />
                                 </q-icon>
 
@@ -65,7 +65,7 @@
                         <q-separator />
                         <q-item clickable v-ripple @click="logout">
                             <q-item-section avatar>
-                                <q-icon name="exit_to_app" />
+                                <q-icon name="exit_to_app"  size="md"/>
                             </q-item-section>
                             <q-item-section>
                                 Çıkış Yap

@@ -205,11 +205,7 @@ class ProjectFunction:
             return lessons_list
         except (psycopg2.Error, Exception) as error:
             return jsonify({'error': str(error)}), 500
-        finally:
-            if self.cur:
-                self.cur.close()
-            if self.conn:
-                self.db.connClose()
+
         
 
     def get_SubjectData(self,lesson_id):
@@ -283,30 +279,32 @@ class ProjectFunction:
         lesson_id = [1, 2, 3, 4, 5, 6, 7]
         feedbacks_text = ""
         summerization_text = [] 
-
         try:
-            self.conn, self.cur = self.db.get_db_connection()
+            conn,cur = self.db.get_db_connection()
             sql = "SELECT feedback_text FROM feedbacks WHERE lesson_id = %s"
             for l_id in lesson_id:
-                self.cur.execute(sql, (l_id,))
-                text = self.cur.fetchall()
-                self.db.conn.commit()
+                cur.execute(sql, (l_id,))
+                text = cur.fetchall()
+                
                 if len(text)<1:
                     continue
                 feedbacks_text = ""
                 for t in text:
-                    feedbacks_text += " " + str(t[0])  # Feedback metinlerini birleştiriyoruz
-                # Her ders için özet bilgileri ekliyoruz
-                summerization_text.append({"lesson_id": l_id, "text": self.summerization_feedback(feedbacks_text)})
-
+                    feedbacks_text += " " + str(t[0])  
+               
+                summerization_text.append({"lesson_id": l_id, "text": self.summerization_feedback(feedbacks_text)})      
             return summerization_text
         except (psycopg2.Error, Exception) as error:
-            return jsonify({'error': str(error)})
+            return jsonify({'error': str(cur)})
         finally:
-            if self.cur:
-                self.cur.close()
-            if self.conn:
-                self.db.connClose()
+            if cur:
+                cur.close()
+            if conn:
+                conn.close()
+
+        
+
+
 
 
         

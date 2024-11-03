@@ -32,7 +32,7 @@ export default {
       loading: true
     }
   },
-  mounted (){
+  created (){
     this.feedbacks = []
     axios.post("http://127.0.0.1:5000/api/getFeedbacks")
         .then(response => {
@@ -43,6 +43,7 @@ export default {
         })
         .finally(() => {
           this.loading = false;
+
       });;
     },
   }
