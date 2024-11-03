@@ -1,4 +1,4 @@
-## Teacher Assistant Project
+## Bilgi Portalı
 
 Öğretmen Asistanı projesi, eğitim yönetimi görevlerini kolaylaştırmayı hedefleyen web tabanlı bir uygulamadır. Bu uygulama ile öğretmenler yapay zeka destekli sınav ve ders içeriği oluşturabilir. Aynı zamanda öğrenci geribildirimi sayesinde daha iyi bir eğitim süreci yürütebilir. 
 
