@@ -78,7 +78,7 @@ pip install -r requirements.txt
 ```
 3. Backend sunucusunu çalıştırın
  ```
-python main.py
+flask run
 ```
 4. Frontend bağımlılıklarını kurun
 ```
@@ -90,7 +90,10 @@ npm install
 ```
 5. Frontend sunucusunu çalıştırın
  ```
-npm run serve
+npm init quasar
+```
+ ```
+quasar dev
 ```
 7. Veritabanı Kurulumu:
 Bu proje için kullanılan veritabanını yapılandırmak için `config/database` dosyasını düzenleyin. Kullanılan veritabanı hakkında bilgileri (örneğin, MongoDB, PostgreSQL vb.) burada belirtin.
