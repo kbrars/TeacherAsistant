@@ -133,7 +133,6 @@
                 axios.post('http://127.0.0.1:5000/api/logout')
                     .then((response) => {
                         window.location.href = '/';
-
                     })
                     .catch((error) => {
                         console.error('Çıkış yapma hatası:', error);

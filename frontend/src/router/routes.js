@@ -9,7 +9,8 @@ const routes = [
   // Login Page
   {
     path: '/',
-    component: IndexPage
+    component: IndexPage,
+    name:"LoginPage"
   },
   // Teacher Portal
   {
