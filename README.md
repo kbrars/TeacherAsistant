@@ -105,37 +105,37 @@ Bu proje için kullanılan veritabanını yapılandırmak için `config/database
 
 * Kullanıcıların giriş yapabileceği giriş sayfası görseli aşağıda verilmiştir.
 
-![loginpage](https://github.com/user-attachments/assets/c3240248-5c5e-4c01-b9ad-ce8166087aa6)
+![loginpage](https://github.com/user-attachments/assets/ee6db956-e621-4cdd-bb72-ae0c5427d0d6)
 
 
 * Eğitmenlerin bilgilerini düzenleyebileceği ve şifrelerini değiştirebileceği ekran aşağıda verilmiştir. 
 
-![TeacherPortal](https://github.com/user-attachments/assets/4936d9ae-c408-492e-b9d4-d6a1509d1698)
+![TeacherPortal](https://github.com/user-attachments/assets/9afd86b1-a5e6-4741-9f42-8e83385371bc)
 
 
 * Öğrencilerin ders seçimi yaparak dersle ilgili geri bildirimlerini verebildikleri sayfa aşağıda verilmiştir. 
 
-![studentPortal](https://github.com/user-attachments/assets/68424b41-6eae-484c-a619-0bca35c3ffea)
+![studentPortal](https://github.com/user-attachments/assets/7cc1b58d-9480-4bb0-b063-b30177de414b)
 
 
 * Öğrenci ders seçimi yaptıktan ve geri bildirimini oluşturduktan sonra gönder tuşuna basar ve işlemi tamamlamış olur. Bu sırada Eğitmen portalına düşen bildirim aşağıda verilmiştir. Eğitmen portalında yer alan Geri bildirimler sekmesinden eğitmen dersle ilgili geri bildirimleri görebilir.
 
-![feedback](https://github.com/user-attachments/assets/ad8d568d-0edd-48da-bf79-ab7117c54f33)
+![feedback](https://github.com/user-attachments/assets/ee4a1529-b822-4cd7-8a9e-c63061460c72)
 
 
 * Eğitmen Portalını kullanan eğitmen materyal oluştur sekmesine tıklayarak istediği konuyu seçebilir. Konuyu seçtikten sonra da indirilmesi tamamlanan yapay zekanın oluşturduğu içeriğe erişebilir.  
 
-![addmaterial](https://github.com/user-attachments/assets/9cbdb8fe-4a84-442b-8bd4-9fab5dff3abc)
+![addmaterial](https://github.com/user-attachments/assets/9d1bfd8e-7e2c-4124-9e52-ebdd98405465)
 
 
 * Eğitmen portalında yer alan 'Sınav oluştur' sekmesine tıklayarak eğitmen İlgili dersi seçebilir.
 
-![assQuiz1](https://github.com/user-attachments/assets/c604e4e6-85fe-475f-8318-d19797487b8a)
+![assQuiz1](https://github.com/user-attachments/assets/608d8e4c-3e05-4590-afc7-103d4511e0da)
 
 
 * Ders seçimi yaptıktan sonra da istediği konuları seçip soru sayısını belirtir. Yapay zeka tarafından ilgili test içeriği oluşturulup bilgisayarına indirilir. 
 
-![addQuiz2](https://github.com/user-attachments/assets/0e24b1e0-32e6-4c66-b031-0a439d28ad3d)
+![addQuiz2](https://github.com/user-attachments/assets/6a79370d-56a2-4cc4-a51d-020925e36b06)
 
 
 ### Gelecekteki Geliştirmeler
