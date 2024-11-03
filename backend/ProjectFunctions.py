@@ -8,10 +8,13 @@ import numpy as np
 import base64
 from geminiApi import geminiApiResult
 from DatabaseConnect import Database
+import random
+
 
 class ProjectFunction:
     def __init__(self):
         self.db = Database()
+        self.f_id = random.randint(20,9999999)
 
     def login(self,username,password):  
         if not username or not password:
@@ -244,7 +247,71 @@ class ProjectFunction:
         promt = f"{lesson_name} dersinde konu olan {subject} konusundan ders materyali hazırlar mısın. Materyal dışında herhangi bir şey yazma."
         result= geminiApiResult(promt)
         return jsonify({"material": result})
+    
+
+    
+    def postFeedback(self, data):
+        text = data.get("text")
+        lesson = data.get("lesson")
+        self.f_id += 1
+
+        try:
+            self.conn, self.cur = self.db.get_db_connection()
+            sql = """
+                    INSERT INTO feedbacks (id, feedback_text, lesson_id)
+                    VALUES (%s, %s, %s);
+                   """
+            self.cur.execute(sql, (self.f_id, text, lesson))
+            self.conn.commit()  # commit işlemi, veritabanına yazma işlemini kalıcı hale getirir.
+            return jsonify({'success': True, 'id': self.f_id})  # Başarı mesajı döndürüyoruz.
+        except (psycopg2.Error, Exception) as error:
+            return jsonify({'error': str(error)})
+        finally:
+            if self.cur:
+                self.cur.close()
+            if self.conn:
+                self.db.connClose()
+
             
+
+    def summerization_feedback(self,feedback):
+        promt = f"Bu içerik öğrencilerin derslerine ait geri bildirimleri. Tüm bu geri bildirimleri tüm öğrencilerin bidlirimlerini özetle. Tüm öğrencilerin anladığı ya da anlamadığı konular üzerine paragraf olarak özetle.  Tüm öğrencilerin anladığı ya da anlamadığı konular üzerine  özetle. kısa olsun. '{feedback}'"
+        result= geminiApiResult(promt)
+        return result
+    
+    def getFeedbacksSummerization(self):
+        lesson_id = [1, 2, 3, 4, 5, 6, 7]
+        feedbacks_text = ""
+        summerization_text = [] 
+
+        try:
+            self.conn, self.cur = self.db.get_db_connection()
+            sql = "SELECT feedback_text FROM feedbacks WHERE lesson_id = %s"
+            for l_id in lesson_id:
+                self.cur.execute(sql, (l_id,))
+                text = self.cur.fetchall()
+                self.db.conn.commit()
+                if len(text)<1:
+                    continue
+                feedbacks_text = ""
+                for t in text:
+                    feedbacks_text += " " + str(t[0])  # Feedback metinlerini birleştiriyoruz
+                # Her ders için özet bilgileri ekliyoruz
+                summerization_text.append({"lesson_id": l_id, "text": self.summerization_feedback(feedbacks_text)})
+
+            return summerization_text
+        except (psycopg2.Error, Exception) as error:
+            return jsonify({'error': str(error)})
+        finally:
+            if self.cur:
+                self.cur.close()
+            if self.conn:
+                self.db.connClose()
+
+
+        
+
+
         
 
         

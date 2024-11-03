@@ -111,3 +111,16 @@ def getTeacherLessons_Subjects():
 def createMeterial():
     data = request.json
     return pfunc.createMeterial(data)
+
+
+#feedback gönderme
+@app.route("/api/postFeedback", methods=["POST"])
+def postFeedback():
+    data = request.json
+    return pfunc.postFeedback(data)
+
+
+#Feedback Gönderme
+@app.route("/api/getFeedbacks", methods=["POST"])
+def getFeedbacks():
+    return pfunc.getFeedbacksSummerization()

@@ -2,7 +2,7 @@
     <q-page>
         <div class="row q-gutter-md wrap justify-center">
             <div class="col-12 col-sm-6 col-md-4 col-lg-3" v-for="lesson in lessons" :key="lesson.id">
-                <q-card class="my-card" :style="{ height: (100 + (42 * lesson.subjects.length)) + 'px' }">
+                <q-card class="my-card" :style="{ height: (100 + (47 * lesson.subjects.length)) + 'px' }">
                     <q-img v-if="lesson.image" :src="lesson.image" alt="Database Image"
                         style="object-fit: cover; height: 100px;">
                         <div class="absolute-bottom text-subtitle2 text-center bg-black text-white"

@@ -50,6 +50,17 @@
                             </q-item-section>
                         </q-item>
 
+                            <!--  Geri Bildirimler -->
+                            <q-item clickable v-ripple @click="selectPage('TeacherFeedbacks')">
+                            <q-item-section avatar>
+                              <q-icon name="feedback" color="black" size="md" />
+
+                            </q-item-section>
+                            <q-item-section>
+                                Geri Bildirimler
+                            </q-item-section>
+                        </q-item>
+
                         <!-- Çıkış Yap -->
                         <q-separator />
                         <q-item clickable v-ripple @click="logout">
@@ -81,6 +92,10 @@
 
                     <div v-else-if="selectedPage === 'MateryalOlusturPage'">
                         <!-- Materyal Olusturma -->
+                        <router-view></router-view>
+                    </div>
+                    <div v-else-if="selectedPage === 'TeacherFeedbacks'">
+                        <!-- Geri Bildirim -->
                         <router-view></router-view>
                     </div>
 
@@ -121,6 +136,11 @@
                 else if (page === 'MateryalOlusturPage') {
                     router.push({
                         name: 'MateryalOlusturPage'
+                    });
+                }
+                else if (page === 'TeacherFeedbacks') {
+                    router.push({
+                        name: 'TeacherFeedbacks'
                     });
                 }
             };
